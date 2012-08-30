@@ -25,6 +25,6 @@
 	 (c*c (dot c c))
 	 (c*rd (dot c rd))
 	 (discr (- (* 4 (expt (- ro*rd c*rd) 2))
-		   (* 80.0 rd*rd (- ro*ro (* 2 ro*c)) (- c*c) (* r r)))))
+		   (* 4 rd*rd (- ro*ro (* 2 ro*c) (- c*c) (* r r))))))
     (print discr)))
 
