@@ -4,8 +4,6 @@
 
 (in-package #:clrt-objects)
 
-(export 'sphere)
-
 (defclass sphere (object)
   ((radius
     :initarg :radius
@@ -25,6 +23,15 @@
 	 (c*c (dot c c))
 	 (c*rd (dot c rd))
 	 (discr (- (* 4 (expt (- ro*rd c*rd) 2))
-		   (* 4 rd*rd (- ro*ro (* 2 ro*c) (- c*c) (* r r))))))
-    (print discr)))
+		   (* 4 rd*rd (- ro*ro (* 2 ro*c) (- c*c) (* r r)))))
+         (tmin (min-in-range (cond
+                              ((< discr 0) nil)
+                              ((= discr 0) (list (/ (* -2 (- ro*rd c*rd)) (* 2 rd*rd))))
+                              (t (let ((root (sqrt discr)))
+                               (list (/ (* -2 (- ro*rd c*rd)) (* 2 rd*rd))
+                                                 (/ (* -2 (- ro*rd c*rd)) (* 2 rd*rd))))))
+               :lower-bound lower-bound
+               :upper-bound shadow-feeler)))
+  (when tmin
+    (list tmin sphere (point-on-ray ray tmin)))))
 

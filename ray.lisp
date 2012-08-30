@@ -24,9 +24,9 @@
     :reader ray-direction)))
 
 (defmethod initialize-instance :after ((ray ray) &key)
-  (assert (<= (- 1 single-float-epsilon)
+  (assert (<= 0.9999
 	      (dot (ray-direction ray) (ray-direction ray))
-	      (+ 1 single-float-epsilon))
+	      1.0001)
 	  nil
 	  ":direction must be unit vector"))
 

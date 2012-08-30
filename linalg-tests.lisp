@@ -1,7 +1,10 @@
 ;;;;
 ;;;; tests
 ;;;;
+
+(ql:quickload 'clrt)
 (use-package 'linalg)
+
 (defparameter *m* (make-instance 'matrix :rows 5 :cols 5 :generator #'(lambda (i j) (random 10.0))))
 (matrix-print *m*)
 (terpri)
@@ -49,4 +52,4 @@
 (matrix-print *a*)
 (format t "=> (length *a*)   .eq   (sprt (dot *a* *a*)) = ~d   .eq   (sqrt(14.0)) = ~d" (sqrt (dot *a* *a*)) (sqrt 14.0))
 (terpri)
-
+(quit)
