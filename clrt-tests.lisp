@@ -23,18 +23,27 @@
 				      :up (make-vector 3 :data #(0.0 1.0 0.0))
 				      :look-at (make-vector 3 :data #(0.0 0.0 100.0))))
 
-;(defparameter *scene* (make-instance 'scene
-;				     :camera *camera*))
+(defparameter *scene* (make-instance 'scene
+				     :camera *camera*))
 
 (defparameter *cube* (make-instance 'cube
                                     :center (make-vector 3 :data #(0.0 0.0 100.0))
                                     :width 20.0 :height 20.0 :depth 20.0))
 
 (finalize *cube* *camera*)
+(add-object *scene* *cube*)
+(render *scene* 640 480 "test.png")
+
+(defparameter *sphere* (make-instance 'sphere
+				    :center (make-vector 3 :data #(0.0 0.0 80.0))
+				    :radius 20.0))
+
+(add-object *scene* *sphere*)
 
 (defparameter *ray* (make-instance 'ray
 				   :origin (make-vector 3 :data #(0.0 0.0 0.0))
 				   :direction (make-vector 3 :data #(0.0 0.0 1.0))))
+(print (intersects *sphere* *ray*))
 (print (intersects *cube* *ray*))
 
 (defparameter *ray* (make-instance 'ray
@@ -47,7 +56,6 @@
 				   :direction (make-vector 3 :data #(0.0 -1.0 0.0))))
 (print (intersects *cube* *ray*))
 
-
 (in-package #:clrt-objects)
 ; .eq 1.0
 (print (min-in-range '(1.0 2.0 3.0 4.0)))
@@ -56,18 +64,11 @@
 (print (min-in-range '(1.0 2.0 3.0 4.0) :lower-bound 2.0))
 
 ; .eq (1.0 . A)
-(print (min-in-range '((1.0 .a) (2.0 . b) (3.0 . c) (4.0 . d)) :key #'car))
+(print (min-in-range '((1.0 . a) (2.0 . b) (3.0 . c) (4.0 . d)) :key #'car))
 
 ; .eq (2.0 . A)
-(print (min-in-range '((1.0 .a) (2.0 . b) (3.0 . c) (4.0 . d)) :key #'car :lower-bound 2.0))
+(print (min-in-range '((1.0 . a) (2.0 . b) (3.0 . c) (4.0 . d)) :key #'car :lower-bound 2.0))
 (in-package #:ccl)
-;(defparameter *sphere* (make-instance 'sphere
-;				    :center (make-vector 3 :data #(0.0 0.0 80.0))
-;				    :radius 20.0))
-
-;(add-object *scene* *sphere*)
-
-;(render *scene* 640 480 "test.png")
 
 ;(format t "(intersects *sphere* *ray*) = ~d   .eq   1600.0" (intersects *sphere* *ray*))
 (terpri)

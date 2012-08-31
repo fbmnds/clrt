@@ -32,7 +32,7 @@
 
 (defun render (scene width height filename)
   (unless (slot-boundp scene 'already-finalized)
-    (dolist (obj (scene-obj scene))
+    (dolist (obj (scene-objects scene))
       (finalize obj (scene-camera scene))))
   (let* ((image (make-instance 'zpng:png
 			       :width width

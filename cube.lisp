@@ -76,7 +76,6 @@
   T)
 
 (defmethod intersects ((cube cube) (ray ray) &key (lower-bound 0.0) shadow-feeler)
-                       ;(declare (ignore lower-bound shadow-feeler))
   (let ((intersection-points
          (loop for side in '(front back left right top bottom)
                for ip = (destructuring-bind (origin up right normal)
@@ -87,8 +86,8 @@
                                                right
                                                ray
                                                #'(lambda (u v)
-                                                   (and (<= u 1)
-                                                        (<= v 1))))
+                                                   (and (<= 0 u 1)
+                                                        (<= 0 v 1))))
                             (when dist
                               (list dist cube (point-on-ray ray dist) u v normal))))
                unless (null ip) collect ip)))

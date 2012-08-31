@@ -36,10 +36,11 @@
                                      (<= lower-bound i upper-bound)
                                    (<= lower-bound i)))
                              elements :key key)))
-    (reduce #'(lambda (a b) (if (<= (funcall key a) (funcall key b))
-                                a
-                              b))
-            elts)))
+    (when elts
+      (reduce #'(lambda (a b) (if (<= (funcall key a) (funcall key b))
+                                  a
+                                b))
+              elts))))
 
 (defun intersects-face (origin up right ray test-fn)
   (let* ((a (vec-x right))
