@@ -33,7 +33,7 @@
    :reader camera-fov)
   (w2v-matrix
    :type matrix
-   :accessor w2v-matrix)))
+   :reader w2v-matrix)))
 
 
 (defmethod initialize-instance :after ((cam camera) &key look-at)
@@ -45,7 +45,7 @@
     (let* ((right (normalized (cross (camera-up cam) (camera-direction cam))))
 	   (up (normalized (cross (camera-direction cam) right)))
 	   (dir (camera-direction cam))) ; should be normalized?
-      (setf (w2v-matrix cam)
+      (setf (slot-value cam 'w2v-matrix)
 	    (make-instance 'matrix
 			   :rows 3
 			   :cols 3
@@ -62,5 +62,5 @@
 								       (vec-z dir))))))))
 
 (defun world->view (cam vec)
-  (m* (w2v-matrix cam) vec))
+  (m* (w2v-matrix cam) (m- vec (camera-pos cam))))
 

@@ -2,7 +2,7 @@
 ;;;; scene.lisp
 ;;;;
 
-(defpackage :clrt-scene
+(defpackage #:clrt-scene
   (:use :cl :linalg :clrt-camera :clrt-objects)
   (:export #:scene
 	   #:add-object
@@ -11,7 +11,7 @@
 
 (ql:quickload "zpng")
 
-(in-package :clrt-scene)
+(in-package #:clrt-scene)
 
 (defclass scene ()
   ((camera
@@ -24,12 +24,16 @@
     :reader scene-objects)
    (lights
     :initform '()
-    :reader scene-lights)))
+    :reader scene-lights)
+   (already-finalized)))
 
 (defun add-object (scene object)
   (push object (slot-value scene 'objects)))
 
 (defun render (scene width height filename)
+  (unless (slot-boundp scene 'already-finalized)
+    (dolist (obj (scene-obj scene))
+      (finalize obj (scene-camera scene))))
   (let* ((image (make-instance 'zpng:png
 			       :width width
 			       :height height))

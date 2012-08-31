@@ -12,8 +12,9 @@
      (:file "camera" :depends-on ("linalg"))
      (:file "objects" :depends-on ("linalg" "camera" "ray"))
      (:file "scene" :depends-on ("linalg" "camera" "ray" "objects"))
-     (:file "sphere" :depends-on ("linalg" "ray" "objects"))
-     (:file "ray" :depends-on ("linalg"))))
+     (:file "sphere" :depends-on ("linalg" "objects"))
+     (:file "ray" :depends-on ("linalg"))
+     (:file "cube":depends-on ("linalg" "objects"))))
 ;     (:file "clrt-tests" :depends-on ("linalg" "camera" "objects" "ray" "scene" "sphere"))))
 
 

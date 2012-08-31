@@ -2,7 +2,7 @@
 ;;;; ray.lisp
 ;;;;
 
-(defpackage clrt-ray
+(defpackage #:clrt-ray
   (:use #:cl #:linalg)
   (:export #:ray
 	   #:point-on-ray
