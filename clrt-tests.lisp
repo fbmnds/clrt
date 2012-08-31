@@ -35,9 +35,32 @@
 (defparameter *ray* (make-instance 'ray
 				   :origin (make-vector 3 :data #(0.0 0.0 0.0))
 				   :direction (make-vector 3 :data #(0.0 0.0 1.0))))
-
 (print (intersects *cube* *ray*))
 
+(defparameter *ray* (make-instance 'ray
+				   :origin (make-vector 3 :data #(100.0 0.0 100.0))
+				   :direction (make-vector 3 :data #(-1.0 0.0 0.0))))
+(print (intersects *cube* *ray*))
+
+(defparameter *ray* (make-instance 'ray
+				   :origin (make-vector 3 :data #(0.0 100.0 100.0))
+				   :direction (make-vector 3 :data #(0.0 -1.0 0.0))))
+(print (intersects *cube* *ray*))
+
+
+(in-package #:clrt-objects)
+; .eq 1.0
+(print (min-in-range '(1.0 2.0 3.0 4.0)))
+
+; .eq 2.0
+(print (min-in-range '(1.0 2.0 3.0 4.0) :lower-bound 2.0))
+
+; .eq (1.0 . A)
+(print (min-in-range '((1.0 .a) (2.0 . b) (3.0 . c) (4.0 . d)) :key #'car))
+
+; .eq (2.0 . A)
+(print (min-in-range '((1.0 .a) (2.0 . b) (3.0 . c) (4.0 . d)) :key #'car :lower-bound 2.0))
+(in-package #:ccl)
 ;(defparameter *sphere* (make-instance 'sphere
 ;				    :center (make-vector 3 :data #(0.0 0.0 80.0))
 ;				    :radius 20.0))

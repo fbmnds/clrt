@@ -76,21 +76,24 @@
   T)
 
 (defmethod intersects ((cube cube) (ray ray) &key (lower-bound 0.0) shadow-feeler)
-                       (declare (ignore lower-bound shadow-feeler))
-                       (let ((intersection-points
-                              (loop for side in '(front back left right top bottom)
-                                    for ip = (destructuring-bind (origin up right normal)
-                                                 (slot-value cube side)
-                                               (multiple-value-bind (dist u v)
-                                                   (intersects-face origin
-                                                                    up
-                                                                    right
-                                                                    ray
-                                                                    #'(lambda (u v)
-                                                                        (and (<= u 1)
-                                                                             (<= v 1))))
-                                                 (when dist
-                                                   (list dist cube (point-on-ray ray dist)))))
-                                    unless (null ip) collect ip)))
-                         intersection-points))
+                       ;(declare (ignore lower-bound shadow-feeler))
+  (let ((intersection-points
+         (loop for side in '(front back left right top bottom)
+               for ip = (destructuring-bind (origin up right normal)
+                            (slot-value cube side)
+                          (multiple-value-bind (dist u v)
+                              (intersects-face origin
+                                               up
+                                               right
+                                               ray
+                                               #'(lambda (u v)
+                                                   (and (<= u 1)
+                                                        (<= v 1))))
+                            (when dist
+                              (list dist cube (point-on-ray ray dist) u v normal))))
+               unless (null ip) collect ip)))
+    (min-in-range intersection-points
+                  :lower-bound lower-bound
+                  :upper-bound shadow-feeler
+                  :key #'car)))
                      

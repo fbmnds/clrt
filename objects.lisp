@@ -30,14 +30,16 @@
   (setf (slot-value obj 'center)
 	(world->view cam (slot-value obj 'center))))
 
-(defun min-in-range (elements &key (lower-bound 0.0) upper-bound)
+(defun min-in-range (elements &key (lower-bound 0.0) upper-bound (key #'identity))
   (let ((elts (remove-if-not #'(lambda (i)
                                  (if upper-bound
                                      (<= lower-bound i upper-bound)
                                    (<= lower-bound i)))
-                             elements)))
-    (when elts
-      (apply #'min elts))))
+                             elements :key key)))
+    (reduce #'(lambda (a b) (if (<= (funcall key a) (funcall key b))
+                                a
+                              b))
+            elts)))
 
 (defun intersects-face (origin up right ray test-fn)
   (let* ((a (vec-x right))
