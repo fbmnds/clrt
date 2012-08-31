@@ -15,6 +15,7 @@
 	   #:mult2
 	   #:m+
 	   #:m-
+           #:m.
 	   #:make-vector
 	   #:vec-x
 	   #:vec-y
@@ -120,16 +121,16 @@
 	(aref (matrix-data result) 0)
 	result)))
 
-(defmethod m* ((m matrix) (s real))
+(defmethod m* ((m matrix) (s single-float))
   (make-instance 'matrix
 		 :rows (matrix-rows m)
 		 :cols (matrix-cols m)
 		 :data (map '(simple-array single-float 1) #'(lambda (i) (* i s)) (matrix-data m))))
 
-(defmethod m* ((s real) (m matrix))
+(defmethod m* ((s single-float) (m matrix))
   (m* m s))
 
-(defmethod m* ((s1 real) (s2 real))
+(defmethod m* ((s1 single-float) (s2 single-float))
   (* s1 s2))
 
 (defun mult (&rest operands)
@@ -160,6 +161,7 @@
 
 (def-elementwise-op-fun m+ #'+)
 (def-elementwise-op-fun m- #'-)
+(def-elementwise-op-fun m. #'*)
 
 (defmacro make-vector (dim &key (orientation :column) data generator)
   (let ((i (gensym))
