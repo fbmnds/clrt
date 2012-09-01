@@ -51,7 +51,7 @@
     :reader specular-coeff)
    (roughness
     :initarg :roughness
-    :initform 50.0
+    :initform 50
     :type (integer 0) ; >= 0
     :reader roughness)))
 

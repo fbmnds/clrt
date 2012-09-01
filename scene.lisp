@@ -10,7 +10,7 @@
 	   #:render
            #:find-closest-intersection))
 
-(ql:quickload "zpng")
+;(ql:quickload "zpng")
 
 (in-package #:clrt-scene)
 

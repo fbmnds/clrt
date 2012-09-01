@@ -103,14 +103,12 @@
       (format t "~7,2f  " (matrix-at m i j)))
     (terpri)))
 
-;; gives simple-error because of single-float arguments in m*
-;; defgeneric does not help ??
 (defgeneric m* (op1 op2) )
 
 (defmethod m* ((a matrix) (b matrix))
   (assert (= (matrix-cols a) (matrix-rows b))
 	  nil
-	  ":cols of neq. :rows of b")
+	  ":cols of a neq. :rows of b")
   (let ((result (make-instance 'matrix
 		 :rows (matrix-rows a)
 		 :cols (matrix-cols b))))

@@ -22,19 +22,19 @@
 	 (rd*rd (dot rd rd))
 	 (c*c (dot c c))
 	 (c*rd (dot c rd))
-	 (discr (- (* 4 (expt (- ro*rd c*rd) 2))
-		   (* 4 rd*rd (- ro*ro (* 2 ro*c) (- c*c) (* r r)))))
+	 (discr (- (* 4.0 (expt (- ro*rd c*rd) 2))
+		   (* 4.0 rd*rd (- ro*ro (* 2.0 ro*c) (- c*c) (* r r)))))
          (tmin (min-in-range (cond
                               ((< discr 0) nil)
-                              ((= discr 0) (list (/ (* -2 (- ro*rd c*rd)) (* 2 rd*rd))))
+                              ((< discr 1e-3) (list (/ (* -2.0 (- ro*rd c*rd)) (* 2.0 rd*rd))))
                               (t (let ((root (sqrt discr)))
-                               (list (/ (* -2 (- ro*rd c*rd)) (* 2 rd*rd))
-                                                 (/ (* -2 (- ro*rd c*rd)) (* 2 rd*rd))))))
-               :lower-bound lower-bound
-               :upper-bound shadow-feeler)))
-  (when tmin
-    (let ((ip (point-on-ray ray tmin)))
-      (list tmin sphere ip
-            nil nil ;; TODO u, v for sphere
-            (normalized (m- ip c)))))))
+                               (list (/ (+ (* -2.0 (- ro*rd c*rd)) root) (* 2.0 rd*rd))
+                                     (/ (- (* -2.0 (- ro*rd c*rd)) root) (* 2.0 rd*rd))))))
+                             :lower-bound lower-bound
+                             :upper-bound shadow-feeler)))
+    (when tmin
+      (let ((ip (point-on-ray ray tmin)))
+        (list tmin sphere ip
+              nil nil ;; TODO u, v for sphere
+              (normalized (m- ip c)))))))
 
